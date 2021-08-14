@@ -1,0 +1,87 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3>
+                        Registros de Pedidos de Clientes
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div *ngIf="listadoPedidos == null" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    <table *ngIf="listadoPedidos" class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">N° Pedido</th>
+                            <th scope="col">Vendedor</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Fecha Emision</th>
+                            <th scope="col">Estado del Pedido</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pedido of listadoPedidos;">
+                            <th>{{pedido.idPedido}}</th>
+                            <th>{{pedido.idVendedor}}</th>
+                            <td>{{pedido.idCliente}}</td>
+                            <td>{{pedido.idProducto}}</td>
+                            <td>{{pedido.cantidad}}</td>
+                            <td>{{pedido.fechaEmision}}</td>
+                            <td>{{pedido.estado}}</td>
+                            <td><i (click) = "editarPedido(pedido)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="far fa-edit text-info"></i></td>
+                            <td><i (click)="eliminarPedido(pedido.idPedido)" class="far fa-trash-alt text-danger"></i></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title" id="exampleModalLabel">Aprobar Pedido</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form [formGroup]="form" (ngSubmit)="guardarPedido()" >
+
+                                    <h1>Fecha de Aprobacion</h1>
+                                    <div class="input-group input-group-lg mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                        <h2>{{fechaActual}}</h2>
+                                    </div>
+                                    
+                                    <h1>Vendedor que Aprueba Pedido</h1>
+                                    <select formControlName="idVendedorAprobado" class="form-select"  >
+                                      <option *ngFor="let vendedor of listadoVendedores" value="{{vendedor.idVendedor}}">{{vendedor.nombre}}</option>
+                                    </select>
+    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary mt-2 btn-lg" [disabled]="form.invalid"> <i class="fas fa-database"></i> Aprobar</button>
+                                    </div>
+                              </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
